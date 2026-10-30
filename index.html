@@ -1,0 +1,239 @@
+<!doctype html>
+<!-- Taste Engine project page. Numbers from results.md (engine v1 and v2). Public page: no audio, no friend names. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taste Engine — FRP 2026</title>
+<meta name="description" content="A small music recommender: rate a few songs, get five new ones that sound alike, each with one reason.">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#">♪ Taste Engine</a>
+    <div class="top-links"><a href="#demo">Demo</a><a href="#results">Results</a></div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="eyebrow">FRP 2026 <span>/</span> AI Engineering <span>/</span> Research</div>
+  <h1>Taste Engine</h1>
+  <p class="subtitle">Five songs you rate 5★ in. Five new songs that sound like them out.</p>
+  <p class="authors">FRP 2026 student project</p>
+  <p class="aff">FRP 2026, AI Engineering track · ISSAI, Nazarbayev University</p>
+  <div class="buttons">
+    <a class="pill" href="https://fleshwater1876.github.io/taste-engine-page/demo/">▶ Live demo</a>
+    <a class="pill" href="#results">📊 Results</a>
+    <a class="pill light" href="#bibtex">{ } BibTeX</a>
+  </div>
+  <p class="tagline">Rate what you love, press Get, and see songs that sound like it — with the reason written next to each one.</p>
+
+  <figure class="teaser">
+    <img src="images/teaser.jpg" alt="Six songs of my own list with star ratings, beside the text 76 songs I love, same label, different sound">
+    <figcaption>My own list: 76 songs, each with stars. The engine compares their sound with the library, not their genre label.</figcaption>
+  </figure>
+
+  <div class="stats">
+    <div><b>376</b><span>songs in the library</span></div>
+    <div><b>3</b><span>real friends tested</span></div>
+    <div><b>6 of 9</b><span>hidden favourites found</span></div>
+    <div><b>19</b><span>styles in the library</span></div>
+  </div>
+</header>
+
+<div class="tabs" id="tabs">
+  <div class="wrap tabs-in">
+    <a href="#abstract">Abstract</a><a href="#how">How it works</a><a href="#data">Songs</a><a href="#tests">Tests</a>
+    <a href="#results">Results</a><a href="#demo">Demo</a><a href="#limits">Limitations</a><a href="#bibtex">BibTeX</a>
+  </div>
+</div>
+
+<section id="abstract" class="band">
+  <div class="narrow">
+    <h2>Abstract</h2>
+    <p>Music apps recommend from what millions of other people listen to, not from what you hear, so a listener with no history gets popular songs instead of personal ones. With one listener and a small library there is no other people's data to use at all.</p>
+    <p>I built a taste engine that compares songs by sound: every track becomes a vector with CLAP audio embeddings, your 1–5★ ratings become one taste profile, and the five closest unrated songs come back with the title of the liked song behind each pick. The library holds 376 songs in 19 styles: 300 new candidates and my own 76 songs.</p>
+    <p>I tested it two ways: two fixed profiles (a rock fan and a K-pop fan) to see if the picks stay in the right style, and three friends who hid three real favourites each in the unseen songs. In the friend test 6 of 9 hidden favourites came back in the top 5, where random picks would find about 0.15 of 9. When the picks were limited to each friend's own styles, the engine found 3 of 9, against 1.77 for random picks inside those styles.</p>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works: the sound, not the label</h2>
+    <p class="lead">Every 30-second clip becomes 512 numbers; your stars become one taste; the five closest songs come back.</p>
+    <figure class="wide">
+      <img src="images/overview.jpg" alt="A vinyl cover, a 30-second waveform, a column of 512 numbers and a map of dots with one orange dot circled">
+      <figcaption>Song → 512 numbers → your taste → five new songs.</figcaption>
+    </figure>
+    <div class="cols3">
+      <div class="col"><div class="num">01</div><h3>Listen</h3><p>CLAP turns a 30-second clip into 512 numbers. Songs that sound alike get similar numbers.</p></div>
+      <div class="col"><div class="num">02</div><h3>Your taste</h3><p>Your 1–5★ ratings become one taste profile: the average of the sound numbers of the songs you rated highest.</p></div>
+      <div class="col"><div class="num">03</div><h3>New songs</h3><p>The five unrated songs closest to your profile come back, each with the liked song it is closest to: “because you liked …”.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="data" class="band">
+  <div class="wrap">
+    <h2>376 songs. 19 styles.</h2>
+    <p class="lead">300 library songs from public 30-second previews (18 styles × 15, plus 30 popular in Kazakhstan) and my own 76 songs. No audio files on this page.</p>
+    <div class="grid2">
+      <div class="cat"><span class="ic">A</span><div><h4>Metal</h4><p>Loud, fast, distorted guitars.</p></div><em>15 songs</em></div>
+      <div class="cat"><span class="ic">B</span><div><h4>K-pop</h4><p>Korean pop: polished production, strong hooks.</p></div><em>15 songs</em></div>
+      <div class="cat"><span class="ic">C</span><div><h4>City pop</h4><p>Japanese pop of the 1980s: bright, smooth, nostalgic.</p></div><em>15 songs</em></div>
+      <div class="cat"><span class="ic">D</span><div><h4>Lofi</h4><p>Quiet beats and soft textures for studying.</p></div><em>15 songs</em></div>
+      <div class="cat"><span class="ic">E</span><div><h4>Top KZ</h4><p>Popular songs in Kazakhstan.</p></div><em>30 songs</em></div>
+      <div class="cat"><span class="ic">♪</span><div><h4>My own songs</h4><p>Shoegaze, indie rock, alternative rock and more — my taste.</p></div><em>76 songs</em></div>
+    </div>
+    <p class="note">Style labels are the search words used on Apple's iTunes Search API; they are not expert labels.</p>
+  </div>
+</section>
+
+<section id="tests">
+  <div class="wrap">
+    <h2>How we test it</h2>
+    <p class="lead">Every result is compared with a baseline, so the numbers mean something.</p>
+    <div class="cols3">
+      <div class="col"><div class="num">TEST 1</div><h3>Does it hear the sound?</h3><p>Two shoegaze songs score 0.92 cosine; shoegaze against indie rock gives 0.76–0.79 (3 songs).</p></div>
+      <div class="col"><div class="num">TEST 2</div><h3>Friend test</h3><p>Rate 10 songs; the page hides your 3 favourites; the engine finds 6 of 9 in the top 5, random picks find 0.15.</p></div>
+      <div class="col"><div class="num">TEST 3</div><h3>Browser = GPU?</h3><p>The model in the page gives the same sound numbers as the GPU: cosine 0.998 on 4 songs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="results" class="band">
+  <div class="wrap">
+    <h2>Sound finds 6 of 9 hidden favourites</h2>
+    <p class="lead">Random picks find 0.15 of 9; inside the friends' own styles a simple rule finds 1.77 of 9.</p>
+    <div class="keys">
+      <div><b>6 of 9</b><span>hidden favourites found in the top 5</span></div>
+      <div><b>0.15</b><span>found by random picks, of 9</span></div>
+      <div><b>3</b><span>friends tested</span></div>
+    </div>
+
+    <div class="chart" id="chart" aria-label="Bar chart">
+      <div class="chart-title">Hidden favourites found per friend (of 3)</div>
+      <!-- the bars are made from CHART at the bottom of this file -->
+    </div>
+
+    <div class="tablewrap">
+      <div class="table-cap">Friend test, engine v1 (picks from all songs), 28 October 2026</div>
+      <table>
+        <thead><tr><th>Friend</th><th>Found (of 3)</th><th>Random from their styles</th><th>Random from the library</th></tr></thead>
+        <tbody>
+          <tr><td>Friend A</td><td>2/3</td><td>-</td><td>0.05</td></tr>
+          <tr><td>Friend B</td><td>3/3</td><td>-</td><td>0.05</td></tr>
+          <tr><td>Friend C</td><td>1/3</td><td>-</td><td>0.05</td></tr>
+          <tr class="total"><td>All</td><td>6/9</td><td>-</td><td>0.15</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Found = hidden favourites in the top 5. Random from the library = 5 × 3 / 293 ≈ 0.05 per friend. The style baseline was measured in a second test with three other friends: 3 of 9 vs 1.77 expected.</p>
+    </div>
+
+    <div class="cols3">
+      <div class="col"><div class="num">01</div><h3>Found</h3><p>How many of the 3 hidden favourites appear in the 5 picks.</p></div>
+      <div class="col"><div class="num">02</div><h3>Random from their styles</h3><p>The hard baseline: 5 random songs from the styles the friend used, 1.77 of 9.</p></div>
+      <div class="col"><div class="num">03</div><h3>Random from the library</h3><p>The easy baseline: 5 picks × 3 hidden / 293 unseen songs ≈ 0.05 per friend.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <h2>Inside the page</h2>
+    <p class="lead">My real list: 76 songs with stars, style chips and the “Get 5 new songs” button.</p>
+    <figure class="wide">
+      <img src="images/demo.jpg" alt="The Taste Engine page: 76 songs, 3 rated, style chips, search box and song cards with stars">
+      <figcaption>The page: “76 songs, 3 rated”, style chips narrow the pool, stars set the taste, and the orange button asks for 5 new songs.</figcaption>
+    </figure>
+    <div class="demo-box">
+      <div><h3>Try it yourself</h3><p>Rate a few songs, press “Get 5 new songs”, or do the friend test. Works on a phone.</p></div>
+      <a class="pill" href="https://fleshwater1876.github.io/taste-engine-page/demo/">▶ Open the live demo</a>
+    </div>
+  </div>
+</section>
+
+<section id="limits" class="band">
+  <div class="narrow">
+    <h2>Reading the results</h2>
+    <p>Three friends, 10 ratings each, and a 300-song library: the test is small. Clips are 30 seconds, so quiet intros and long build-ups are lost. Style labels are search words from Apple, not expert labels, and the second test used three other friends.</p>
+    <p>The numbers do not show how the engine works on a catalogue of millions of songs, or on a listener whose taste spans many styles.</p>
+  </div>
+</section>
+
+<section id="next">
+  <div class="wrap">
+    <h2>Try it and check it</h2>
+    <div class="cols3">
+      <div class="col"><div class="num">01</div><h3>Try the demo</h3><p>Rate 3 songs, press Get, and read the reason on each pick.</p></div>
+      <div class="col"><div class="num">02</div><h3>Check the numbers</h3><p>6 of 9 found, 0.15 random, 1.77 for the same-style rule — all from results.md.</p></div>
+      <div class="col"><div class="num">03</div><h3>What is next</h3><p>A bigger library and more friends, so the test stops being small.</p></div>
+    </div>
+    <div class="buttons center"><a class="pill" href="https://fleshwater1876.github.io/taste-engine-page/demo/">Live demo</a><a class="pill light" href="#results">Results</a></div>
+  </div>
+</section>
+
+<section id="bibtex" class="band">
+  <div class="narrow">
+    <div class="bib-head"><h2>BibTeX</h2><button id="copy">Copy citation</button></div>
+<pre id="bib">@misc{tasteengine2026,
+  title  = {Taste Engine: five songs that sound like yours},
+  author = {FRP 2026 student project},
+  year   = {2026},
+  note   = {FRP 2026, AI Engineering track, ISSAI, Nazarbayev University},
+  url    = {https://fleshwater1876.github.io/taste-engine-page/demo/}
+}</pre>
+  </div>
+</section>
+
+<footer>
+  <b>Taste Engine</b>
+  <p>FRP 2026 · ISSAI, Nazarbayev University</p>
+  <p class="small">Layout inspired by the Academic Project Page Template and Nerfies.</p>
+</footer>
+
+<script>
+// The bar chart: put your numbers here (value = average found per friend, of 3). null = not measured yet (shows X).
+const CHART = [
+  { label: "My taste engine", value: 2, color: "#A3283D" },
+  { label: "Random inside their styles", value: 0.59, color: "#C08A2E" },
+  { label: "Random from the library", value: 0.05, color: "#9AA3AE" },
+];
+const MAX = 3;
+const chart = document.getElementById("chart");
+CHART.forEach(row => {
+  const r = document.createElement("div"); r.className = "bar-row";
+  const w = row.value === null ? 0 : Math.max(1, 100 * row.value / MAX);
+  r.innerHTML = `<span class="bar-label">${row.label}</span>
+    <span class="bar-track"><span class="bar" style="width:${w}%;background:${row.color}"></span></span>
+    <span class="bar-val">${row.value === null ? "X" : row.value}</span>`;
+  chart.appendChild(r);
+});
+
+// Example tabs
+document.querySelectorAll(".case-tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".case-tabs button").forEach(x => x.classList.toggle("on", x === b));
+  document.querySelectorAll(".case-panel").forEach((p, i) => p.classList.toggle("on", i == b.dataset.case));
+});
+
+// Copy citation
+document.getElementById("copy").onclick = async e => {
+  try { await navigator.clipboard.writeText(document.getElementById("bib").innerText); e.target.textContent = "Copied ✓"; }
+  catch { e.target.textContent = "Select and copy"; }
+};
+
+// Highlight the section in the menu while you scroll
+const links = [...document.querySelectorAll(".tabs a")];
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id));
+}), { rootMargin: "-45% 0px -50% 0px" });
+document.querySelectorAll("section[id]").forEach(s => io.observe(s));
+</script>
+</body>
+</html>
